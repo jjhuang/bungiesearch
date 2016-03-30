@@ -68,11 +68,11 @@ class ModelIndex(object):
     def get_model(self):
         return self.model
 
-    def get_mapping(self):
+    def get_mapping(self, meta_fields=True):
         '''
         :return: a dictionary which can be used to generate the elasticsearch index mapping for this doctype.
         '''
-        return {'properties': dict((name, field.json()) for name, field in iteritems(self.fields))}
+        return {'properties': dict((name, field.json()) for name, field in iteritems(self.fields) if meta_fields or name not in AbstractField.meta_fields)}
 
     def collect_analysis(self):
         '''
